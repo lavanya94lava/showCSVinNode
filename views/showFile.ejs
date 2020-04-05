@@ -7,20 +7,30 @@
     <title><%= title%></title>
 </head>
 <body>
-    <form action="/upload" enctype="multipart/form-data" method="POST">
-        <input type="file" name="avatar" id="uploadCsv">
-        <label for="uploadCsv">Choose File</label>
-        <input type="submit" value = "update">
-    </form>
-
-    <% for(avatar of avatars){%>
-        <ul>
-            <li>
-                <a href="/<%= avatar.filename%>"> <%= avatar.avatar%></a>    
-            </li>
-        </ul>
-    <%}%>
-    
+    <table class="table">
+        <thead>
+            <tr>
+                <% keys.forEach((key)=> {%>
+                    <th>
+                        <a href="/sort">
+                            <%= key.toUpperCase() %>
+                        </a>
+                    </th>
+                <%})%>
+            </tr>
+        </thead>
+        <tbody> 
+            <% data.forEach(element => {%>
+                <tr>
+                    <%keys.forEach(key =>{%>
+                        <td>
+                            <%= element[key]%>
+                        </td>    
+                    <%})%>
+                </tr>    
+            <%})%>
+        </tbody>
+    </table>
     <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

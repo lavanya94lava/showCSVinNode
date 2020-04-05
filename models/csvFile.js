@@ -6,6 +6,9 @@ const AVATAR_PATH = path.join('/uploads/csvFiles/avatars');
 const csvSchema = new mongoose.Schema({
     avatar:{
         type:String
+    },
+    filename:{
+        type:String
     }
 },{
     timestamps:true
