@@ -25,20 +25,20 @@ module.exports.upload = async function(req,res){
 }
 
 module.exports.home  = async function(req,res){
-    console.log(path.join(__dirname,'..'));
     let avatars = await CSV.find({});
     return res.render('home',{
         title: "csv",
         avatars:avatars
     });
 }
+
+
 let keys;
 let data = [];
 module.exports.getCSV = async function(req,res){
     fs.createReadStream(path.join(__dirname,'..','/uploads/csvFiles/avatars',req.params.avatar))
     .pipe(csv())
     .on('data', (row) => {
-        console.log(Object.keys(row));
         keys = Object.keys(row);
         data.push(row);
     })
@@ -49,6 +49,28 @@ module.exports.getCSV = async function(req,res){
     return res.render('showFile',{
         title: "showFile",
         keys:keys,
-        data: data
+        data: data,
+        avatar:req.params.avatar
+    });
+}
+
+let searchArray = [];
+module.exports.search = async function(req,res){
+    let search = req.body.search;
+    search = search.toLowerCase();
+    if(data!=null){
+        data.forEach((element) =>{
+            let temp = element[keys[3]];
+            temp = temp.toLowerCase();
+            if(temp.indexOf(search)!=-1){
+                searchArray.push(element);
+            }
+        });
+    }
+    return res.render('showFile',{
+        title:'showFile',
+        keys:keys,
+        data:searchArray,
+        avatar:req.params.avatar
     });
 }
