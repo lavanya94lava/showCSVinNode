@@ -49,29 +49,29 @@ module.exports.getCSV = async function(req,res){
     fs.createReadStream(path.join(__dirname,'..','/uploads/csvFiles/avatars',req.params.avatar))
     .pipe(csv())
     .on('data', (row) => {
-        keys = Object.keys(row); // get the keys out of the data
         data.push(row); // push the data in the array
     })
     .on('end', () => {
-        console.log('CSV file successfully processed');
-    });
-
-    return res.render('showFile',{
-        title: "showFile", //send data to the views
-        keys:keys,
-        data: data,
-        avatar:req.params.avatar
+        keys = Object.keys(data[0]);
+        return res.render('showFile',{
+            title: "showFile", //send data to the views
+            keys:keys, // get the keys out of the data
+            data: data,
+            avatar:req.params.avatar
+        });
     });
 }
 
-let searchArray = [];
-// use an array to get all the values which matches your string search
+
+
 module.exports.search = async function(req,res){
     try {
+        let searchArray = [];
+        // use an array to get all the values which matches your string search
         let search = req.body.search;
         search = search.toLowerCase();// convert into lower case so that we can get accurate results
         if(data!=null){
-            data.forEach((element) =>{ // loop through each element to compare
+            await data.forEach((element) =>{ // loop through each element to compare
                 let temp = element[keys[3]]; // fix any column on which you want to run your seach query
                 temp = temp.toLowerCase(); //convert into lower case so that we can get accurate results
                 if(temp.indexOf(search)!=-1){ // if the array value matches, push it in your array
@@ -87,7 +87,7 @@ module.exports.search = async function(req,res){
         });   
     } 
     catch (error) {
-        console.log("Error ",err);
+        console.log("Error ",error);
         return res.redirect('back');
     }
 }
