@@ -7,12 +7,14 @@
     <title><%= title%></title>
 </head>
 <body>
+    <!-- make a search form which posts data so that we can run search query -->
     <form action="/upload" enctype="multipart/form-data" method="POST">
         <input type="file" name="avatar" id="uploadCsv">
         <label for="uploadCsv">Choose File</label>
         <input type="submit" value = "update">
     </form>
 
+    <!-- loop through each and every avatar to render the values of links -->
     <% for(avatar of avatars){%>
         <ul>
             <li>

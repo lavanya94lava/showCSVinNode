@@ -7,6 +7,7 @@
     <title><%= title%></title>
 </head>
 <body>
+    <!-- make a search form which posts data so that we can run search query -->
     <form action="/<%= avatar%>/search" method="POST">
         <input type="text" name="search" id="search" placeholder="search">
         <input type="submit" value = "search">
@@ -14,9 +15,10 @@
     <table class="table">
         <thead>
             <tr>
-                <% keys.forEach((key)=> {%>
+                <!-- we have keys data coming from controller , use its value and index to further our functionalities -->
+                <% keys.forEach((key,index)=> {%>
                     <th>
-                        <a href="/sort">
+                        <a href="/sort/<%= index%>">
                             <%= key.toUpperCase() %>
                         </a>
                     </th>
@@ -24,8 +26,10 @@
             </tr>
         </thead>
         <tbody> 
+            <!-- we got data from our controller, use it to render each row in table -->
             <% data.forEach(element => {%>
                 <tr>
+                    <!-- use keys to put data in table in each row -->
                     <%keys.forEach(key =>{%>
                         <td>
                             <%= element[key]%>
